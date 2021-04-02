@@ -1,40 +1,29 @@
-import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
+import React, { useState, useContext } from 'react';
+import GithubContext from '../context/githubContext'
+import { Link } from 'react-router-dom'
 
-class Search extends Component {
-    constructor(props) {
-        super(props);
-        this.searchInputChange = this.searchInputChange.bind(this);
-        this.searchUsers = this.searchUsers.bind(this);
+const Search = (props) => {
 
-        this.state = {
-            keyword: ""
+    const [keyword, setKeyword] = useState('');
+    const { searchUsers } = useContext(GithubContext);
+
+    const searchInputChange = (e) => {
+        setKeyword(e.target.value);
+    }
+
+    const searchUser = () => {
+        if (keyword) {
+            searchUsers(keyword);
+            setKeyword('');
         }
     }
 
-    searchInputChange(e) {
-        this.setState({
-            keyword: e.target.value
-        })
-    }
-
-    searchUsers(){
-        if(this.state.keyword) {
-            this.props.searchUsers(this.state.keyword);
-            this.setState({
-                keyword: ""
-            });
-        }
-    }
-
-    render() {
-        return (
-            <form className="form-inline" onSubmit={(e) => e.preventDefault()}>
-                <input className="form-control mr-2" type="text" value={this.state.keyword} placeholder="Search" autoFocus onChange={this.searchInputChange} />
-                <Link to="/" className="btn btn-outline-light" onClick={this.searchUsers}>Search</Link>
-            </form>
-        )
-    }
+    return (
+        <form className="form-inline" onSubmit={(e) => e.preventDefault()}>
+            <input className="form-control mr-2" type="text" value={keyword} placeholder="Search" autoFocus onChange={searchInputChange} />
+            <Link to="/" className="btn btn-outline-light" onClick={searchUser}>Search</Link>
+        </form>
+    )
 }
 
 export default Search;
