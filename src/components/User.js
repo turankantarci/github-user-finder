@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from 'react-router-dom';
 import GithubContext from '../context/githubContext'
+import Search from "./Search";
 
 const User = () => {
   const { users } = useContext(GithubContext);
@@ -23,7 +24,7 @@ const User = () => {
               </div>
             )
           })
-          : <div className="col-12 text-center mt-3">Search any user...</div>
+          : <Search isMainSearch={true}/>
       }
     </div>
   );

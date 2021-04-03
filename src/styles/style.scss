@@ -1,6 +1,10 @@
 body {
   padding-top: 3.5rem;
   background-color: #efefef;
+
+  input:focus {
+    box-shadow: none !important;
+  }
 }
 
 .user-avatar {
