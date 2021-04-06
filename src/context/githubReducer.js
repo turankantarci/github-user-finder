@@ -5,6 +5,11 @@ const GithubReducer = (state, action) => {
                 ...state,
                 users: action.payload
             }
+        case "GET_POPULAR_REPOS":
+            return {
+                ...state,
+                popularRepos: action.payload
+            }
         case "GET_USER_INFO":
             return {
                 ...state,
@@ -14,6 +19,16 @@ const GithubReducer = (state, action) => {
             return {
                 ...state,
                 repos: action.payload
+            }
+        case "SHOW_LOADING":
+            return {
+                ...state,
+                loading: true
+            }
+        case "HIDE_LOADING":
+            return {
+                ...state,
+                loading: false
             }
         default:
             return state;

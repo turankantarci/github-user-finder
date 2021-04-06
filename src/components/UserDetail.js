@@ -9,7 +9,7 @@ const UserDetail = (props) => {
   useEffect(() => {
     getUserInfo(props.match.params.login);
     getUserRepo(props.match.params.login);
-    console.log('useEffect worked.');
+    document.documentElement.scrollTop = 0;
   }, []);
 
   const { avatar_url, name, bio, public_repos, followers, following } = user;

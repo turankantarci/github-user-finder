@@ -7,35 +7,66 @@ const GithubState = (props) => {
     const initialState = {
         users: [],
         user: {},
-        repos: []
+        repos: [],
+        popularRepos: [],
+        loading: false
     }
 
     const [state, dispatch] = useReducer(GithubReducer, initialState);
 
+    const showLoading = () => {
+        dispatch({
+            type: 'SHOW_LOADING'
+        });
+    }
+
+    const hideLoading = () => {
+        dispatch({
+            type: 'HIDE_LOADING'
+        });
+    }
+
     const searchUsers = (keyword) => {
+        showLoading();
         axios.get(`https://api.github.com/search/users?q=${keyword}`).then((response) => {
             dispatch({
                 type: "SEARCH_USERS",
                 payload: response.data.items
             });
+            hideLoading();
         });
     }
 
     const getUserInfo = (username) => {
+        showLoading();
         axios.get(`https://api.github.com/users/${username}`).then((response) => {
             dispatch({
                 type: "GET_USER_INFO",
                 payload: response.data
             });
+            hideLoading();
         });
     }
 
     const getUserRepo = (username) => {
+        showLoading();
         axios.get(`https://api.github.com/users/${username}/repos`).then((response) => {
             dispatch({
                 type: "GET_USER_REPO",
                 payload: response.data
             });
+            hideLoading();
+        });
+    }
+
+    const getPopularRepos = () => {
+        showLoading();
+        axios.get('https://api.github.com/search/repositories?q=stars:%3E1&sort=stars').then((response) => {
+            dispatch({
+                type: "GET_POPULAR_REPOS",
+                payload: response.data.items
+            });
+            hideLoading();
         });
     }
 
@@ -44,9 +75,12 @@ const GithubState = (props) => {
             users: state.users,
             user: state.user,
             repos: state.repos,
+            popularRepos: state.popularRepos,
+            loading: state.loading,
             searchUsers,
             getUserInfo,
-            getUserRepo
+            getUserRepo,
+            getPopularRepos
         }}>
         {props.children}
     </GithubContext.Provider>
