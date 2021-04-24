@@ -28,7 +28,7 @@ const GithubState = (props) => {
 
     const searchUsers = (keyword) => {
         showLoading();
-        axios.get(`https://api.github.com/search/users?q=${keyword}`).then((response) => {
+        axios.get(`https://api.github.com/search/users?q=${keyword}&per_page=100`).then((response) => {
             dispatch({
                 type: "SEARCH_USERS",
                 payload: response.data.items
