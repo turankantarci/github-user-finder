@@ -20,6 +20,11 @@ const GithubReducer = (state, action) => {
                 ...state,
                 repos: action.payload
             }
+        case "GET_COMMITS":
+            return {
+                ...state,
+                commits: action.payload
+            }
         case "SHOW_LOADING":
             return {
                 ...state,

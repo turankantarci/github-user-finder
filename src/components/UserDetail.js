@@ -1,10 +1,13 @@
 import React, { useEffect, useContext } from "react";
+import { Route, Switch } from 'react-router-dom'
+import UserInfo from "./UserInfo";
 import UserRepos from './UserRepos'
+import Commits from './Commits'
 import GithubContext from "../context/githubContext";
 
 const UserDetail = (props) => {
 
-  const { user, getUserInfo, getUserRepo } = useContext(GithubContext);
+  const { getUserInfo, getUserRepo } = useContext(GithubContext);
 
   useEffect(() => {
     getUserInfo(props.match.params.login);
@@ -12,27 +15,13 @@ const UserDetail = (props) => {
     document.documentElement.scrollTop = 0;
   }, []);
 
-  const { avatar_url, name, bio, public_repos, followers, following } = user;
-
   return (
     <div>
-      <div className="jumbotron">
-        <div className="d-flex align-items-center">
-          <img
-            className="rounded-circle user-avatar"
-            src={avatar_url}
-            alt={name}
-          />
-          <div className="ml-3">
-            <h1 className="display-4">{name}</h1>
-            {bio && <p className="lead">{bio}</p>}
-            <span className="badge badge-primary mr-1">Repos: {public_repos}</span>
-            <span className="badge badge-danger mr-1">Followers: {followers}</span>
-            <span className="badge badge-success">Following: {following}</span>
-          </div>
-        </div>
-      </div>
-      <UserRepos />
+      <UserInfo />
+      <Switch>
+        <Route exact path={`/userdetail/${props.match.params.login}`} component={UserRepos}/>
+        <Route exact path={`/userdetail/${props.match.params.login}/:slug/commits`} component={Commits} />
+      </Switch>
     </div>
   )
 }

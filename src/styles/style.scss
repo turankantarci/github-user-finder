@@ -32,3 +32,11 @@ body {
   background-color: rgba(20, 20, 20, 0.7);
   z-index: 3;
 }
+
+.date {
+  white-space: nowrap;
+}
+
+.committer-avatar {
+  max-width: 20px;
+}

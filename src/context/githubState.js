@@ -8,6 +8,7 @@ const GithubState = (props) => {
         users: [],
         user: {},
         repos: [],
+        commits: [],
         popularRepos: [],
         loading: false
     }
@@ -59,6 +60,17 @@ const GithubState = (props) => {
         });
     }
 
+    const getCommits = (userName, repoName) => {
+        showLoading();
+        axios.get(`https://api.github.com/repos/${userName}/${repoName}/commits`).then((response) => {
+            dispatch({
+                type: "GET_COMMITS",
+                payload: response.data
+            })
+            hideLoading();
+        });
+    }
+
     const getPopularRepos = () => {
         showLoading();
         axios.get('https://api.github.com/search/repositories?q=stars:%3E1&sort=stars').then((response) => {
@@ -70,6 +82,11 @@ const GithubState = (props) => {
         });
     }
 
+    const formatDate = (date) => {
+        date = new Date(date);
+        return `${('0' + date.getDate()).slice(-2)}-${('0' + date.getMonth()).slice(-2)}-${date.getFullYear()}`
+    }
+
     return <GithubContext.Provider
         value={{
             users: state.users,
@@ -77,10 +94,13 @@ const GithubState = (props) => {
             repos: state.repos,
             popularRepos: state.popularRepos,
             loading: state.loading,
+            commits: state.commits,
             searchUsers,
             getUserInfo,
             getUserRepo,
-            getPopularRepos
+            getPopularRepos,
+            getCommits,
+            formatDate
         }}>
         {props.children}
     </GithubContext.Provider>
