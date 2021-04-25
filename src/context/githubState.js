@@ -82,11 +82,6 @@ const GithubState = (props) => {
         });
     }
 
-    const formatDate = (date) => {
-        date = new Date(date);
-        return `${('0' + date.getDate()).slice(-2)}-${('0' + (date.getMonth() + 1)).slice(-2)}-${date.getFullYear()}`
-    }
-
     return <GithubContext.Provider
         value={{
             users: state.users,
@@ -99,8 +94,7 @@ const GithubState = (props) => {
             getUserInfo,
             getUserRepo,
             getPopularRepos,
-            getCommits,
-            formatDate
+            getCommits
         }}>
         {props.children}
     </GithubContext.Provider>

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import GithubContext from '../context/githubContext';
-
+import { formatDate } from '../utils';
 
 const Commits = (props) => {
-    const { user, commits, getCommits, formatDate } = useContext(GithubContext);
+    const { user, commits, getCommits } = useContext(GithubContext);
 
     useEffect(() => {
         getCommits(user.login, props.match.params.slug);
@@ -28,7 +28,7 @@ const Commits = (props) => {
                                 </p>
                                 :
                                 <p>{commit.commit.committer.name}</p>
-                                }
+                            }
                         </a>
                     )
                 })}
